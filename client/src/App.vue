@@ -1,15 +1,14 @@
 <template>
   <div class="wrapper">
    <header-scrin
-     :userName = "userName"
-     :admin = "admin"
-     @logOut="logOut"
+   :userName = "userName"
+   :admin = "admin"
+   @logOut="logOut"
    ></header-scrin>
 
    <main>
      <router-view
-     @login="setCookie"
-     @isAdmin="isAdmin"
+     @login="getUser"
      :userId = "userId"
      :userName = "userName"
      :admin = "admin"
@@ -34,72 +33,64 @@ import Authorization from './components/authorization.vue';
 import AddArticle from './components/admin/add-article.vue';
 import EditArticle from './components/admin/edit-article.vue';
 import PasswordRecovery from './components/password-recovery.vue';
+import config from './config/config.js';
 
 export default {
   name: 'app',
   data () {
     return {
-       userId:null,
-       userName:null,
-       admin:null
-    }
-  },
-  created: function () {
-    this.userId = this.getCookie("flowers_userId");
-    this.userName = this.getCookie("flowers_userName");
-    this.admin = this.getCookie("flowers_admin");
+     userId:null,
+     userName:null,
+     admin:null
+   }
+ },
+ created: function () {
+  this.getUser();
 
-  },
-  methods:{
-    setCookie(id, name){
-      this.userId = id;
-      this.userName = name;
-      console.log(this.userId, this.userName);
-      let x = new Date();
-      let date = (new Date(x.setDate(x.getDate() + 1))).toUTCString();
+},
+methods:{
 
-      document.cookie = "flowers_userId=" + id + "; expires=" + date;
-      document.cookie = "flowers_userName=" + name + "; expires=" + date;
+ getUser(){
+  this.axios.get(`${config.baseUrl}/login`)
+  .then(response => {
 
-    },
-    isAdmin(id){
-      this.admin = id;
-      let x = new Date();
-      let date = (new Date(x.setDate(x.getDate() + 1))).toUTCString();
-      document.cookie = "flowers_admin=" + id + "; expires=" + date;
-    },
-    logOut(){
-      this.userId = null;
-      this.userName = null;
-      this.admin = null;
-      document.cookie = "flowers_userId=; path=/; expires=" + -1;
-      document.cookie = "flowers_userName=; path=/; expires=" + -1;
-      document.cookie = "flowers_admin=; path=/; expires=" + -1;
-    },
-    getCookie(name){
+   this.userId = response.data.id || null;
+   this.userName = response.data.name || null;
+   this.admin = response.data.admin;
+})
+  .catch(error =>{
+    console.log(error);
+  });
+},
 
-    var matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-      ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
+logOut(){
+   this.axios.post(`${config.baseUrl}/logout`, {user:null})
+   .then(response => {
+    this.getUser();
 
-  }
-  },
+})
+  .catch(error =>{
+    console.log(error);
+  });
+}
 
-  components:{
-    HeaderScrin,
-    FooterScrin,
-    Home,
-    GalleryFlowers,
-    AboutFlower,
-    Articles,
-    OneArticle,
-    Registration,
-    Authorization,
-    AddArticle,
-    EditArticle,
-    PasswordRecovery
-  }
+
+},
+
+components:{
+  HeaderScrin,
+  FooterScrin,
+  Home,
+  GalleryFlowers,
+  AboutFlower,
+  Articles,
+  OneArticle,
+  Registration,
+  Authorization,
+  AddArticle,
+  EditArticle,
+  PasswordRecovery
+}
 }
 </script>
 
@@ -188,22 +179,22 @@ main{
 .butt-green{
   background-color:$green-color;
   &:hover{
-        background-color:lighten($green-color, 10%);
-      }
+    background-color:lighten($green-color, 10%);
+  }
 }
 
 .butt-blue{
   background-color:$blue-color;
   &:hover{
-        background-color:lighten($blue-color, 10%);
-      }
+    background-color:lighten($blue-color, 10%);
+  }
 }
 
 .butt-red{
   background-color:$red-color;
   &:hover{
-        background-color:lighten($red-color, 10%);
-      }
+    background-color:lighten($red-color, 10%);
+  }
 }
 
 
@@ -218,57 +209,57 @@ main{
     margin-bottom:15px;
   }
   div.form-group{
-  margin-bottom:15px;
-  label, input,textarea{
-    display:block;
-    margin-bottom:10px;
-    font-size:15px;
-  }
-  input, textarea{
-    width:100%;
-    border:1px solid #BFC3C5;
-    padding:7px;
-    border-radius:2px;
-    color:$text-color;
-    &.error{
-      border:1px solid $pink-color;
+    margin-bottom:15px;
+    label, input,textarea{
+      display:block;
+      margin-bottom:10px;
+      font-size:15px;
+    }
+    input, textarea{
+      width:100%;
+      border:1px solid #BFC3C5;
+      padding:7px;
+      border-radius:2px;
+      color:$text-color;
+      &.error{
+        border:1px solid $pink-color;
          // border-color:$pink-color;
-        }
-  }
-  textarea{
-    height:300px;
-  }
-  label{
-    display:inline-block;
-    position: relative;
-    &:not(.not-required):after{
-      position: absolute;
-      content:"*";
+       }
+     }
+     textarea{
+      height:300px;
+    }
+    label{
+      display:inline-block;
+      position: relative;
+      &:not(.not-required):after{
+        position: absolute;
+        content:"*";
+        color: $pink-color;
+        font-size:21px;
+        top:1px;
+        margin-left:2px;
+      }
+    }
+    .message{
+      float:right;
+      display:inline-block;
+      font-size:15px;
       color: $pink-color;
-      font-size:21px;
-      top:1px;
-      margin-left:2px;
     }
-  }
-  .message{
-    float:right;
-    display:inline-block;
-    font-size:15px;
-    color: $pink-color;
-  }
 
-}
-.form-buttons{
-  margin-top:30px;
-  a{
-    float:right;
-    color:$text-color;
-    text-decoration:none;
-    &:hover{
-      text-decoration:underline;
+  }
+  .form-buttons{
+    margin-top:30px;
+    a{
+      float:right;
+      color:$text-color;
+      text-decoration:none;
+      &:hover{
+        text-decoration:underline;
+      }
     }
   }
-}
 
 }
 

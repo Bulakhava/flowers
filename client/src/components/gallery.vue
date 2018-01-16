@@ -41,115 +41,6 @@ import VueGallery from 'vue-gallery';
 import Flower from '../models/flower';
 import config from '../config/config';
 
-/*const flowers = [
-{
-  id:'1',
-  name:'Георгины',
-  img:'georgin.jpg',
-  pict:[],
-  index: null
-},
-{
-  id:'1',
-  name:'Лилии',
-  img:'lilia2.jpg',
-  pict:[
-  'src/assets/img/flowers/IMG_1780.jpg','src/assets/img/flowers/S7004237.jpg','src/assets/img/flowers/S7005280.jpg', 'src/assets/img/flowers/S7005300.jpg'
-  ],
-  index: null
-},
-{
-  id:'1',
-  name:'Пионы',
-  img:'pion.jpg',
-  pict:[
-  'src/assets/img/flowers/ballerina01.jpg','src/assets/img/flowers/bunker hill04.jpg','src/assets/img/flowers/cora stubbs05.jpg', 'src/assets/img/flowers/coral sunset02.jpg'
-  ],
-  description:null
-},
-{
-  id:'1',
-  name:'Астильбы',
-  img:'astilba.jpg',
-  pict:[],
-
-},
-{
-  id:'1',
-  name:'Гладиолусы',
-  img:'gladiolus.jpg',
-  pict:[],
-
-},
-{
-  id:'1',
-  name:'Ирисы',
-  img:'iris.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Лилейники',
-  img:'lileinik.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Нарциссы',
-  img:'narciss.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Розы',
-  img:'rose.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Нивяник',
-  img:'nivianik.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Рудбекия',
-  img:'rudbekia.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Тюльпаны',
-  img:'tulpan.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Флоксы',
-  img:'flox.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Хосты',
-  img:'hosts.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Хризантемы',
-  img:'hrisantem.jpg',
-  pict:[]
-},
-{
-  id:'1',
-  name:'Эхинацеи',
-  img:'ehinacea.jpg',
-  pict:[]
-},
-];*/
-
-
 export default {
   data () {
     return {
@@ -167,7 +58,6 @@ export default {
     this.flowers.push(new Flower(i));
    }
 
-  //console.log(this.flowers);
   })
    .catch(error =>{
     console.log(error);

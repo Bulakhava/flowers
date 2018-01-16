@@ -66,16 +66,15 @@ export default {
       password:this.password,
      };
 
-
      this.axios.post(`${config.baseUrl}/login`, user)
       .then(response => {
+        console.log(response.data);
         if(response.data.message === 'No authorization'){
           this.incorrect = true;
-        }if(response.data.message === 'Admin'){
-           this.$emit('isAdmin', response.data.id);
+
         }if(response.data.message === 'Authorization' || response.data.message === 'Admin'){
           this.incorrect = false;
-          this.$emit('login', response.data.id, response.data.name);
+          this.$emit('login');
           this.$router.push('/');
         }
 

@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const generatePassword = require('password-generator');
 const transporter = require('../mailer');
 const config = require('../config/database');
+const passport = require('passport');
 
 router.post('/register',  (req, res, next) => {
 
@@ -46,9 +47,10 @@ router.post('/register',  (req, res, next) => {
 });
 
 
-router.post('/login',  (req, res, next) => {
 
-	User.findOne({email:req.body.email}, function(err, user){
+router.post('/login',  (req, res, next) => {
+   console.log(req.body);
+  User.findOne({email:req.body.email}, function(err, user){
 		if(err) res.send(err);
 		if(!user){
 			res.send({message:'No authorization'});
@@ -59,10 +61,18 @@ router.post('/login',  (req, res, next) => {
 
 
 				if(isMatch){
+
+                   req.session.userId = user._id;
+                   req.session.userName = user.name;
+					
 					if(user.email === 'coronacia@mail.ru'){
-						res.send({message:'Admin', name:user.name, id:user._id});
-					}else{
-						res.send({message:'Authorization', name:user.name, id:user._id});
+						
+						req.session.admin = true;
+						res.send({message:'Admin'});
+					}
+					else{
+						req.session.admin = false;
+						res.send({message:'Authorization'});
 					}
 
 
@@ -76,6 +86,21 @@ router.post('/login',  (req, res, next) => {
 
 	});
 
+});
+
+
+router.get('/login', (req, res, next) => {
+	let user = {
+		id:req.session.userId,
+		name:req.session.userName,
+		admin:req.session.admin
+	}
+	res.send(user);
+});
+
+router.post('/logout', (req, res, next) => {
+	req.session.destroy();
+	res.send({'session':null});
 });
 
 

@@ -24,16 +24,17 @@
      <div class="sorts">
 
        <div class="about-flower-item sort-item" v-for="sort in sorts">
+         <div class="about-flower-item-content">
          <div class="img sort-img" v-if="sort.pict.length">
            <img :src="sort.pict[0]" width="100%" alt="">
          </div>
          <div class="content">
            <div class="title">{{sort.name}}</div>
-           <div class="text">
-            {{sort.description}}
+           <div class="text" v-html="sort.description">
+
           </div>
         </div>
-
+</div>
          <div class="image butt butt-green"
          v-if="sort.pict.length"
          @click="images = sort.pict; index = 0"
@@ -195,7 +196,9 @@ $blue-color:#4eb9f4;
     }
   }
 }
-
+.about-flower-item-content{
+  overflow:hidden;
+}
 .about-flower-item{
   width:80%;
   overflow:hidden;
@@ -214,6 +217,7 @@ $blue-color:#4eb9f4;
 
 .image{
   margin-top:20px;
+  //float:right;
 }
 
 

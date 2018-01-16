@@ -83,7 +83,7 @@ export default {
    },
    deleteArticle(){
 
-    this.axios.delete(`${config.baseUrl}/delete-article/${this.itemId}`)
+    this.axios.delete(`${config.baseUrl}/delete-article/${this.article.id}`)
     .then(response => {
       this.$router.push(`/articles`);
     })

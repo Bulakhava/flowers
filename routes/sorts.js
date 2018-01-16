@@ -6,7 +6,9 @@ router.get('/sorts/:alias', (req, res, next) => {
 		if(err){
 			res.send(err);
 		}
-		
+		docs.sort(function(a,b){
+			return (a.name == 'Нарциссы прочие') ? 1 : -1;
+		})
 		res.send(docs);
 	});
 });
